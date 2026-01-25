@@ -49,3 +49,80 @@ Atlas 是面向中小型团队/社区的一款开源在线文档协作平台，�
 - 协作协议：`docs/collab-protocol.md`
 
 
+项目架构图
+```mermaid
+%%{init: {"theme":"base","flowchart":{"curve":"linear","nodeSpacing":50,"rankSpacing":80}} }%%
+flowchart LR
+
+%% ======================
+%% Style (soft yellow)
+%% ======================
+classDef client fill:#FFF8E1,stroke:#E6D8A8,color:#333
+classDef edge fill:#FFF3CC,stroke:#D8C68A,color:#333
+classDef core fill:#FFF1C1,stroke:#D6C07A,color:#333
+classDef data fill:#F5F0D8,stroke:#CFC7A0,color:#333
+classDef async fill:#F7F2E3,stroke:#D6CEB5,color:#333
+classDef obs fill:#EFEBD6,stroke:#C9C3A6,color:#333
+
+%% ======================
+%% Main flow
+%% ======================
+U[Web Client<br/>Editor / Viewer]:::client
+GW[gateway-service<br/>Auth / CORS / RateLimit]:::edge
+
+subgraph Core
+  IAM[iam-service<br/>Auth / RBAC]:::core
+  DOC[doc-service<br/>Docs / Versions]:::core
+  COL[collab-service<br/>Presence / Sync]:::core
+  AI[ai-service]:::core
+  NOTIFY[notify-service]:::core
+  CORE_AGG[Core Services observability]:::core
+end
+
+U -->|HTTPS| GW
+GW --> IAM
+GW --> DOC
+GW --> AI
+GW --> NOTIFY
+U -->|WebSocket| COL
+
+%% ======================
+%% Data stores
+%% ======================
+PG[(Postgres)]:::data
+R[(Redis)]:::data
+OSS[(MinIO / S3)]:::data
+
+IAM -->|SQL| PG
+DOC -->|SQL| PG
+AI -->|SQL| PG
+NOTIFY -->|SQL| PG
+
+DOC -->|Cache| R
+COL -->|Room State| R
+NOTIFY -->|Cache| R
+
+DOC -->|S3 API| OSS
+
+%% ======================
+%% Async jobs
+%% ======================
+Q[(Queue / Asynq)]:::async
+JOB[doc-job<br/>Export / Index]:::async
+
+DOC -. enqueue .-> Q
+Q --> JOB
+JOB --> PG
+JOB --> OSS
+
+%% ======================
+%% Observability (aggregated)
+%% ======================
+JAE[Jaeger]:::obs
+PRO[Prometheus]:::obs
+GRA[Grafana]:::obs
+
+CORE_AGG -. trace .-> JAE
+CORE_AGG -. metrics .-> PRO
+PRO --> GRA
+```
