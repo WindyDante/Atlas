@@ -1,7 +1,15 @@
-# Atlas API
+# Proto开发
 
-Proto definitions managed by Buf.
+## Buf使用
+### 更新buf.lock
+```bash
+buf dep update
+```
 
-## Layout
-- `proto/**` proto files
-- `gen/**` generated code (optional for repo, can be gitignored)
+### 检查proto语法正确
+```bash
+buf lint
+```
+
+### 生成proto代码
+buf generate

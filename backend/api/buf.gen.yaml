@@ -1,0 +1,21 @@
+version: v2
+managed:
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: github.com/WindyDante/Atlas/backend/api/gen
+    
+    - file_option: go_package
+      path: doc/v1
+      value: github.com/WindyDante/Atlas/backend/api/gen/atlas/doc/v1;docv1
+
+plugins:
+  - remote: buf.build/protocolbuffers/go
+    out: gen
+    opt:
+      - paths=source_relative
+
+  - remote: buf.build/grpc/go
+    out: gen
+    opt:
+      - paths=source_relative

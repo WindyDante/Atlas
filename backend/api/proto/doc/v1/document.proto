@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package doc.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+// 文档服务：提供 CRUD
+service DocumentService {
+  // 创建：POST /v1/documents
+  rpc CreateDocument(CreateDocumentRequest) returns (CreateDocumentResponse) {
+    option (google.api.http) = {
+      post: "/v1/documents"
+      body: "document"
+    };
+  }
+
+  // 获取：GET /v1/documents/{document_id}
+  rpc GetDocument(GetDocumentRequest) returns (GetDocumentResponse) {
+    option (google.api.http) = {
+      get: "/v1/documents/{document_id}"
+    };
+  }
+
+  // 列表：GET /v1/documents?page_size=..&page_token=..
+  rpc ListDocuments(ListDocumentsRequest) returns (ListDocumentsResponse) {
+    option (google.api.http) = {
+      get: "/v1/documents"
+    };
+  }
+
+  // 更新：PATCH /v1/documents/{document.id}
+  // 使用 FieldMask 指定更新哪些字段，避免全量覆盖
+  rpc UpdateDocument(UpdateDocumentRequest) returns (UpdateDocumentResponse) {
+    option (google.api.http) = {
+      patch: "/v1/documents/{document.id}"
+      body : "document"
+    };
+  }
+
+  // 删除：DELETE /v1/documents/{document_id}
+  rpc DeleteDocument(DeleteDocumentRequest) returns (DeleteDocumentResponse) {
+    option (google.api.http) = {
+      delete: "/v1/documents/{document_id}"
+    };
+  }
+}
+
+// 一个文档资源
+message Document {
+  string id      = 1; // 资源 ID（通常由后端生成）
+  string title   = 2; // 标题
+  string content = 3; // 内容（先简单用 string；后续可换 markdown/richtext）
+
+  // 权限隔离：文档归属（用户ID/主体ID）
+  string owner_id   = 4;
+  string created_by = 5; // 记录是谁创建的（用户ID/主体ID）
+  string updated_by = 6; // 记录最后是谁修改的（用户ID/主体ID）
+
+  // 审计字段：一般由后端写入
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}
+
+message CreateDocumentResponse {
+  Document document = 1;
+}
+
+message GetDocumentResponse {
+  Document document = 1;
+}
+
+message UpdateDocumentResponse {
+  Document document = 1;
+}
+
+message CreateDocumentRequest {
+  // 这里用 Document 复用字段；通常客户端只需填 title/content
+  Document document = 1;
+}
+
+message GetDocumentRequest {
+  string document_id = 1;
+}
+
+message ListDocumentsRequest {
+  // 常见分页参数：page_token 风格
+  int32  page_size  = 1;
+  string page_token = 2;
+
+  // （可选）简单搜索：比如按标题/内容模糊匹配
+  string query = 3;
+}
+
+message ListDocumentsResponse {
+  repeated Document documents       = 1;
+  string            next_page_token = 2;
+}
+
+message UpdateDocumentRequest {
+  // 要更新的文档（必须包含 id）
+  Document document = 1;
+
+  // 指明更新哪些字段，例如 ["title","content"]
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteDocumentRequest {
+  string document_id = 1;
+}
+
+message DeleteDocumentResponse {}
