@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.0
 // - protoc             (unknown)
-// source: doc/v1/document.proto
+// source: doc/service/v1/document.proto
 
-package docv1
+package servicev1
 
 import (
 	context "context"
@@ -19,11 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	DocumentService_CreateDocument_FullMethodName = "/doc.v1.DocumentService/CreateDocument"
-	DocumentService_GetDocument_FullMethodName    = "/doc.v1.DocumentService/GetDocument"
-	DocumentService_ListDocuments_FullMethodName  = "/doc.v1.DocumentService/ListDocuments"
-	DocumentService_UpdateDocument_FullMethodName = "/doc.v1.DocumentService/UpdateDocument"
-	DocumentService_DeleteDocument_FullMethodName = "/doc.v1.DocumentService/DeleteDocument"
+	DocumentService_CreateDocument_FullMethodName = "/doc.service.v1.DocumentService/CreateDocument"
+	DocumentService_GetDocument_FullMethodName    = "/doc.service.v1.DocumentService/GetDocument"
+	DocumentService_ListDocuments_FullMethodName  = "/doc.service.v1.DocumentService/ListDocuments"
+	DocumentService_UpdateDocument_FullMethodName = "/doc.service.v1.DocumentService/UpdateDocument"
+	DocumentService_DeleteDocument_FullMethodName = "/doc.service.v1.DocumentService/DeleteDocument"
 )
 
 // DocumentServiceClient is the client API for DocumentService service.
@@ -260,7 +260,7 @@ func _DocumentService_DeleteDocument_Handler(srv interface{}, ctx context.Contex
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var DocumentService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "doc.v1.DocumentService",
+	ServiceName: "doc.service.v1.DocumentService",
 	HandlerType: (*DocumentServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -285,5 +285,5 @@ var DocumentService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "doc/v1/document.proto",
+	Metadata: "doc/service/v1/document.proto",
 }

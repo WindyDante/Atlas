@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package doc.v1;
+package doc.service.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/field_mask.proto";
