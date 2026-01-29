@@ -3,7 +3,7 @@ The Next-generation Open Source Collaborative Document System
 
 Atlas 是面向中小型团队/社区的一款开源在线文档协作平台，提供**多人实时协作**、**离线编辑自动合并**、**版本回溯**、**权限管理**与**AI 辅助写作**等能力。
 
-系统后端基于 GO 微服务框架 [go-kratos](https://go-kratos.dev/)。
+系统后端基于 GO 微服务示例 [krathub](https://github.com/HoronLee/krathub)。
 
 ## Atlas 核心技术栈
 
