@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package doc.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+
+// OpenAPI 文档配置：只放文档元信息 + 通用错误结构
+option (gnostic.openapi.v3.document) = {
+  info: {
+    title: "Doc API"
+    version: "1.0.0"
+    description: "Doc 微服务 API 文档 - 文档读取/管理接口"
+    contact: {
+      name: "Atlas Team"
+      url: "https://github.com/ToAtlas/AtlasBackend"
+    }
+    license: {
+      name: "MIT License"
+      url: "https://github.com/ToAtlas/AtlasBackend/blob/main/LICENSE"
+    }
+  }
+
+  components: {
+    schemas: {
+      additional_properties: [
+        {
+          name: "KratosError"
+          value: {
+            schema: {
+              type: "object"
+              description: "Kratos 标准错误响应"
+              properties: {
+                additional_properties: [
+                  {
+                    name: "code"
+                    value: { schema: { type: "integer" format: "int32" } }
+                  },
+                  {
+                    name: "reason"
+                    value: { schema: { type: "string" } }
+                  },
+                  {
+                    name: "message"
+                    value: { schema: { type: "string" } }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+};

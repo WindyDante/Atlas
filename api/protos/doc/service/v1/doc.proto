@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package doc.service.v1;
+
+option go_package = "github.com/ToAtlas/AtlasBackend/api/gen/go/doc/service/v1;docpb";
+
+import "google/api/annotations.proto";
+
+service Doc {
+  rpc GetDoc(GetDocRequest) returns (GetDocResponse) {
+    option (google.api.http) = { get: "/api/v1/docs/{id}" };
+  }
+}
+
+message GetDocRequest {
+  int64 id = 1;
+}
+
+message GetDocResponse {
+  int64 id = 1;
+  string title = 2;
+  string content = 3;
+}

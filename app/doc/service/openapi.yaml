@@ -1,0 +1,57 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: Doc API
+    description: Doc 微服务 API 文档 - 文档读取/管理接口
+    contact:
+        name: Atlas Team
+        url: https://github.com/ToAtlas/AtlasBackend
+    license:
+        name: MIT License
+        url: https://github.com/ToAtlas/AtlasBackend/blob/main/LICENSE
+    version: 1.0.0
+paths:
+    /api/v1/docs/{id}:
+        get:
+            tags:
+                - Doc
+            operationId: Doc_GetDoc
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetDocResponse'
+components:
+    schemas:
+        GetDocResponse:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                content:
+                    type: string
+        KratosError:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                reason:
+                    type: string
+                message:
+                    type: string
+            description: Kratos 标准错误响应
+tags:
+    - name: Doc
