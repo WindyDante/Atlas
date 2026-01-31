@@ -48,7 +48,7 @@ Atlas 是面向中小型团队/社区的一款开源在线文档协作平台，�
 ```shell
 # 克隆项目
 git clone https://github.com/ToAtlas/AtlasBackend.git
-cd krathub
+cd 项目目录名
 ```
 
 ### 安装开发工具
